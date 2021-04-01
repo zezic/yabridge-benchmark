@@ -16,6 +16,12 @@
             margin: 1em auto;
             border: 1px solid rgba(255, 255, 255, .1);
         }
+        a {
+            color: currentColor;
+        }
+        a:hover {
+            color: white;
+        }
         table th,
         table td {
             padding: 1em;
@@ -26,13 +32,23 @@
             position: relative;
             min-width: 8em;
         }
+        table td.good {
+            background-color: rgba(30, 212, 121, 0.157);
+            color: rgb(0, 255, 128);
+        }
+        table td.very-good {
+            color: #5effae;
+            background-color: rgba(0, 255, 128, 0.164);
+            font-weight: bold;
+        }
         table td.futex2::after {
             content: 'futex2';
             position: absolute;
             top: 0;
             right: .2em;
             font-size: .8em;
-            color: #29f3c0;
+            font-weight: bold;
+            color: #80ffdf;
         }
         table td.active {
             border: 2px solid currentColor;
@@ -55,8 +71,8 @@
                 <th></th>
                 <th>5.4.0-generic</th>
                 <th>5.8.0-lowlatency</th>
-                <th>5.11.0-liquorix</th>
-                <th>5.11.11-xanmod</th>
+                <th><a href='https://liquorix.net/#install'>5.11.0-liquorix</a></th>
+                <th><a href='https://xanmod.org/#install_via_terminal'>5.11.11-xanmod</a></th>
             </tr>
         </thead>
         <tbody>
@@ -64,15 +80,15 @@
                 <th>Wine Staging 6.5</th>
                 <td data-idx='0' class='active'>2.221 ms</td>
                 <td data-idx='1'>2.301 ms</td>
-                <td data-idx='2'>1.868 ms</td>
+                <td data-idx='2' class='good'>1.868 ms</td>
                 <td data-idx='3'>2.215 ms</td>
             </tr>
             <tr>
                 <th>Wine Staging 6.5 TkG</th>
                 <td data-idx='4'>2.215 ms</td>
                 <td data-idx='5'>2.268 ms</td>
-                <td data-idx='6' class='futex2'>1.852 ms</td>
-                <td data-idx='7' class='futex2'>1.734 ms</td>
+                <td data-idx='6' class='futex2 good'>1.852 ms</td>
+                <td data-idx='7' class='futex2 very-good'>1.734 ms</td>
             </tr>
         </tbody>
     </table>
