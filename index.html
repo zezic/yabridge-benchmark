@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <meta charset='UTF-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <title>Document</title>
+    <style>
+        body {
+            background-color: #202020;
+            color: #e0e0e0;
+            font-family: sans-serif;
+        }
+        table {
+            font-size: 14px;
+            margin: 1em auto;
+            border: 1px solid rgba(255, 255, 255, .1);
+        }
+        table th,
+        table td {
+            padding: 1em;
+        }
+        table td {
+            background-color: rgba(255, 255, 255, .1);
+            border: 2px solid transparent;
+            position: relative;
+            min-width: 8em;
+        }
+        table td.futex2::after {
+            content: 'futex2';
+            position: absolute;
+            top: 0;
+            right: .2em;
+            font-size: .8em;
+            color: #29f3c0;
+        }
+        table td.active {
+            border: 2px solid currentColor;
+        }
+        table tbody th {
+            text-align: left;
+        }
+        .viewport img {
+            max-width: 100%;
+        }
+        .viewport img:not(.active) {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <table>
+        <thead>
+            <tr>
+                <th></th>
+                <th>5.4.0-generic</th>
+                <th>5.8.0-lowlatency</th>
+                <th>5.11.0-liquorix</th>
+                <th>5.11.11-xanmod</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th>Wine Staging 6.5</th>
+                <td data-idx='0' class='active'>2.221 ms</td>
+                <td data-idx='1'>2.301 ms</td>
+                <td data-idx='2'>1.868 ms</td>
+                <td data-idx='3'>2.215 ms</td>
+            </tr>
+            <tr>
+                <th>Wine Staging 6.5 TkG</th>
+                <td data-idx='4'>2.215 ms</td>
+                <td data-idx='5'>2.268 ms</td>
+                <td data-idx='6' class='futex2'>1.852 ms</td>
+                <td data-idx='7' class='futex2'>1.734 ms</td>
+            </tr>
+        </tbody>
+    </table>
+    <div class='viewport'>
+        <img src='images/5.4.0-70-generic.png' alt='5.4.0-generic + Wine Staging 6.5' title='5.4.0-generic + Wine Staging 6.5' class='active'>
+        <img src='images/5.8.0-48-lowlatency.png' alt='5.8.0-lowlatency + Wine Staging 6.5' title='5.8.0-lowlatency + Wine Staging 6.5'>
+        <img src='images/5.11.0-11.1-liquorix-amd64.png' alt='5.11.0-liquorix + Wine Staging 6.5' title='5.11.0-liquorix + Wine Staging 6.5'>
+        <img src='images/5.11.11-xanmod1.png' alt='5.11.11-xanmod + Wine Staging 6.5' title='5.11.11-xanmod + Wine Staging 6.5'>
+        <img src='images/tkg-5.4.0-70-generic.png' alt='5.4.0-generic + Wine Staging 6.5 TkG' title='5.4.0-generic + Wine Staging 6.5 TkG'>
+        <img src='images/tkg-5.8.0-48-lowlatency.png' alt='5.8.0-lowlatency + Wine Staging 6.5 TkG' title='5.8.0-lowlatency + Wine Staging 6.5 TkG'>
+        <img src='images/tkg-futex2-5.11.0-11.1-liquorix-amd64.png' alt='5.11.0-liquorix + Wine Staging 6.5 TkG + futex2' title='5.11.0-liquorix + Wine Staging 6.5 TkG + futex2'>
+        <img src='images/tkg-futex2-5.11.11-xanmod1.png' alt='5.11.11-xanmod + Wine Staging 6.5 TkG + futex2' title='5.11.11-xanmod + Wine Staging 6.5 TkG + futex2'>
+    </div>
+    <script>
+        function activateImage(event) {
+            const idx = event.target.dataset.idx
+            event.target.classList.add('active')
+            let cells = document.querySelectorAll(`td:not([data-idx="${idx}"])`)
+            for (const cell of cells) {
+                cell.classList.remove('active')
+            }
+
+            const cssIdx = parseInt(idx) + 1
+
+            let imgs = document.querySelectorAll(`.viewport img:not(:nth-child(${cssIdx}))`)
+            let img = document.querySelector(`.viewport img:nth-child(${cssIdx})`)
+            img.classList.add('active')
+            for (const img of imgs) {
+                img.classList.remove('active')
+            }
+        }
+
+        let cells = document.querySelectorAll('td')
+        for (const cell of cells) {
+            cell.addEventListener('mouseenter', activateImage)
+            cell.addEventListener('click', activateImage)
+        }
+    </script>
+</body>
+</html>
