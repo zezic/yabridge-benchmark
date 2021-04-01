@@ -10,14 +10,52 @@
             background-color: #202020;
             color: #e0e0e0;
             font-family: sans-serif;
+            margin: 0;
+        }
+
+        h1, article, .content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 10px 20px;
+        }
+
+        footer {
+            padding: 2.5em 0;
+            background-color: rgba(255, 255, 255, .1);
+        }
+        h1, h2 {
+            margin-top: 40px;
+        }
+        p {
+            line-height: 1.75;
+        }
+        ol li:not(:last-of-type) {
+            margin-bottom: .75em;
+        }
+
+        ul li {
+            margin-top: .75em;
+        }
+
+        code, pre {
+            border-radius: .3em;
+            background-color: rgba(255, 255, 255, .1);
+        }
+        code {
+            padding: .3em .5em;
+        }
+        pre {
+            line-height: 1.75;
+            padding: .5em .75em;
         }
         table {
             font-size: 14px;
-            margin: 1em auto;
+            margin: 1em 0;
             border: 1px solid rgba(255, 255, 255, .1);
         }
         a {
             color: currentColor;
+            font-weight: bold;
         }
         a:hover {
             color: white;
@@ -65,43 +103,95 @@
     </style>
 </head>
 <body>
-    <table>
-        <thead>
-            <tr>
-                <th></th>
-                <th>5.4.0-generic</th>
-                <th>5.8.0-lowlatency</th>
-                <th><a href='https://liquorix.net/#install'>5.11.0-liquorix</a></th>
-                <th><a href='https://xanmod.org/#install_via_terminal'>5.11.11-xanmod</a></th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <th>Wine Staging 6.5</th>
-                <td data-idx='0' class='active'>2.221 ms</td>
-                <td data-idx='1'>2.301 ms</td>
-                <td data-idx='2' class='good'>1.868 ms</td>
-                <td data-idx='3'>2.215 ms</td>
-            </tr>
-            <tr>
-                <th>Wine Staging 6.5 TkG</th>
-                <td data-idx='4'>2.215 ms</td>
-                <td data-idx='5'>2.268 ms</td>
-                <td data-idx='6' class='futex2 good'>1.852 ms</td>
-                <td data-idx='7' class='futex2 very-good'>1.734 ms</td>
-            </tr>
-        </tbody>
-    </table>
-    <div class='viewport'>
-        <img src='images/5.4.0-70-generic.png' alt='5.4.0-generic + Wine Staging 6.5' title='5.4.0-generic + Wine Staging 6.5' class='active'>
-        <img src='images/5.8.0-48-lowlatency.png' alt='5.8.0-lowlatency + Wine Staging 6.5' title='5.8.0-lowlatency + Wine Staging 6.5'>
-        <img src='images/5.11.0-11.1-liquorix-amd64.png' alt='5.11.0-liquorix + Wine Staging 6.5' title='5.11.0-liquorix + Wine Staging 6.5'>
-        <img src='images/5.11.11-xanmod1.png' alt='5.11.11-xanmod + Wine Staging 6.5' title='5.11.11-xanmod + Wine Staging 6.5'>
-        <img src='images/tkg-5.4.0-70-generic.png' alt='5.4.0-generic + Wine Staging 6.5 TkG' title='5.4.0-generic + Wine Staging 6.5 TkG'>
-        <img src='images/tkg-5.8.0-48-lowlatency.png' alt='5.8.0-lowlatency + Wine Staging 6.5 TkG' title='5.8.0-lowlatency + Wine Staging 6.5 TkG'>
-        <img src='images/tkg-futex2-5.11.0-11.1-liquorix-amd64.png' alt='5.11.0-liquorix + Wine Staging 6.5 TkG + futex2' title='5.11.0-liquorix + Wine Staging 6.5 TkG + futex2'>
-        <img src='images/tkg-futex2-5.11.11-xanmod1.png' alt='5.11.11-xanmod + Wine Staging 6.5 TkG + futex2' title='5.11.11-xanmod + Wine Staging 6.5 TkG + futex2'>
-    </div>
+    <h1>DSP benchmark on Ubuntu with different kernels and Wine versions</h1>
+    <article>
+        <p>
+            I tried to benchmark various kernels available as binary packages for Ubuntu as well as to check if <strong>fsync/futex2</strong> makes a noticeable difference for Wine. The Bitwig project used for the benchmark consists of 4 VST synths running in parallel, and 3 VST effects on a master chain. All plugins are non-native and running with <a href='https://github.com/robbert-vdh/yabridge'>yabridge</a>. CPU is AMD Ryzen 3 1200 (8-core version) running at 3700 MHz, and RAM is DDR4 running at 3200 MHz with 16-18-18-36 timings.
+        </p>
+        <h2>Results</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>5.4.0-generic</th>
+                    <th>5.8.0-lowlatency</th>
+                    <th><a href='https://liquorix.net/#install'>5.11.0-liquorix</a></th>
+                    <th><a href='https://xanmod.org/#install_via_terminal'>5.11.11-xanmod</a></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th><a href='https://wiki.winehq.org/Ubuntu'>Wine Staging 6.5</a></th>
+                    <td data-idx='0' class='active'>2.221 ms</td>
+                    <td data-idx='1'>2.301 ms</td>
+                    <td data-idx='2' class='good'>1.868 ms</td>
+                    <td data-idx='3'>2.215 ms</td>
+                </tr>
+                <tr>
+                    <th><a href='https://github.com/Kron4ek/Wine-Builds/releases'>Wine Staging 6.5 TkG</a></th>
+                    <td data-idx='4'>2.215 ms</td>
+                    <td data-idx='5'>2.268 ms</td>
+                    <td data-idx='6' class='futex2 good'>1.852 ms</td>
+                    <td data-idx='7' class='futex2 very-good'>1.734 ms</td>
+                </tr>
+            </tbody>
+        </table>
+        <div class='viewport'>
+            <img src='images/5.4.0-70-generic.png' alt='5.4.0-generic + Wine Staging 6.5' title='5.4.0-generic + Wine Staging 6.5' class='active'>
+            <img src='images/5.8.0-48-lowlatency.png' alt='5.8.0-lowlatency + Wine Staging 6.5' title='5.8.0-lowlatency + Wine Staging 6.5'>
+            <img src='images/5.11.0-11.1-liquorix-amd64.png' alt='5.11.0-liquorix + Wine Staging 6.5' title='5.11.0-liquorix + Wine Staging 6.5'>
+            <img src='images/5.11.11-xanmod1.png' alt='5.11.11-xanmod + Wine Staging 6.5' title='5.11.11-xanmod + Wine Staging 6.5'>
+            <img src='images/tkg-5.4.0-70-generic.png' alt='5.4.0-generic + Wine Staging 6.5 TkG' title='5.4.0-generic + Wine Staging 6.5 TkG'>
+            <img src='images/tkg-5.8.0-48-lowlatency.png' alt='5.8.0-lowlatency + Wine Staging 6.5 TkG' title='5.8.0-lowlatency + Wine Staging 6.5 TkG'>
+            <img src='images/tkg-futex2-5.11.0-11.1-liquorix-amd64.png' alt='5.11.0-liquorix + Wine Staging 6.5 TkG + futex2' title='5.11.0-liquorix + Wine Staging 6.5 TkG + futex2'>
+            <img src='images/tkg-futex2-5.11.11-xanmod1.png' alt='5.11.11-xanmod + Wine Staging 6.5 TkG + futex2' title='5.11.11-xanmod + Wine Staging 6.5 TkG + futex2'>
+        </div>
+        <h3>Liquorix kernel</h3>
+        <p>
+            The Liquorix kernel shows surprisingly good results even without fsync/futex2 enabled.
+        </p>
+        <h3>XanMod kernel</h3>
+        <p>
+            The XanMod kernel (STABLE, non-rt version, without CacULE) makes things better if you use it with fsync/futex2-enabled Wine version. It performs a bit better than Liquorix and gives me about 3%-5% higher efficiency. 
+        </p>
+        <h3>fsync/futex2</h3>
+        <p>
+            Enabling fsync on the supported kernels gives me a feel that spikes are less likely to occur, but I can't prove it yet so you will have to check it yourself. Obviously, it has to be enabled on XanMod kernel to make an advantage out of it.
+        </p>
+        <h2>
+            How to get system-wide Wine with TkG patches on Ubuntu easily
+        </h2>
+        <p>
+            There is a <a href='https://github.com/Kron4ek/Wine-Builds'>repo</a> by <a href='https://github.com/
+            Kron4ek'>Kron4ek</a> which provides various binary Wine builds.
+            <ol>
+                <li>Install the stock Wine provided by Ubuntu or Wine Staging. It's an easy way to get all dependencies needed for every other Wine version.</li>
+                <li>Navigate to the <a href='https://github.com/Kron4ek/Wine-Builds/releases'>Releases section</a> and download a <code>.tar.xz</code> archive for your architecture (it's most probably an amd64). The archive should have a "tkg" in its name. Example: <code>wine-6.5-staging-tkg-amd64.tar.xz</code></li>
+                <li>Unpack the archive you downloaded and find a <code>bin</code> folder inside it – path to that folder will be used as an override for the <code>$PATH</code> enviroment variable.</li>
+                <li>Make changes to your <code>~/.profile</code>:
+                    <ul>
+                        <li>
+                            Add the next construction to the end of file:
+<pre>if [ -d "$HOME/Downloads/wine-6.5-staging-tkg-amd64/bin" ] ; then
+    PATH="$HOME/Downloads/wine-6.5-staging-tkg-amd64/bin:$PATH"
+fi</pre>
+                            Where <code>$HOME/Downloads/wine-6.5-staging-tkg-amd64/bin</code> is a path to the <code>bin</code> folder from previous step. Prepending it to the <code>$PATH</code> variable gives it higher priority when system searches for executables, so <code>wine, winecfg</code> and other Wine executables will be picked from that folder instead of system one.
+                        </li>
+                        <li>
+                            Explicitly enable fsync/futex2 by adding the next line to the file:
+<pre>export WINEFSYNC=1</pre>
+                        </li>
+                    </ul>
+                </li>
+                <li>Relogin to your account.</li>
+            </ol>
+        </p>
+    </article>
+    <footer>
+        <div class='content'>
+            <a href='https://github.com/zezic/yabridge-benchmark'>Edit this article on GitHub</a>
+        </div>
+    </footer>
     <script>
         function activateImage(event) {
             const idx = event.target.dataset.idx
