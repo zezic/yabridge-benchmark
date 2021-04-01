@@ -168,7 +168,7 @@
                 <li>Install the stock Wine provided by Ubuntu or Wine Staging. It's an easy way to get all dependencies needed for every other Wine version.</li>
                 <li>Navigate to the <a href='https://github.com/Kron4ek/Wine-Builds/releases'>Releases section</a> and download a <code>.tar.xz</code> archive for your architecture (it's most probably an amd64). The archive should have a "tkg" in its name. Example: <code>wine-6.5-staging-tkg-amd64.tar.xz</code></li>
                 <li>Unpack the archive you downloaded and find a <code>bin</code> folder inside it – path to that folder will be used as an override for the <code>$PATH</code> environment variable.</li>
-                <li>Make changes to your <code>~/.profile</code>:
+                <li>Make changes to your shell's environment by editing its profile. Please refer to the <a href='https://github.com/robbert-vdh/yabridge#search-path-setup'>yabridge manual</a> to find out which file is used by your shell. Most of the time it's one of <code>~/.profile</code>, <code>~/.bash_profile</code> or <code>~/.zprofile</code>:
                     <ul>
                         <li>
                             Add the next construction to the end of file:
